@@ -1,15 +1,10 @@
 #! /usr/bin/env python3
 
-from pandocfilters import toJSONFilter, RawInline
+from pandocfilters import toJSONFilter, RawInline, elt, Str
 
 """
-Converts :::-containers to 'tcolorboxes' according to their category. Requires
-the 'tcolorbox' package to be included, e. g. using the YAML header:
-
-  ---
-  header-includes:
-    - \\usepackage{tcolorbox}
-  ...
+Converts :::-containers to 'tcolorboxes' according to their category. Adds the
+'tcolorbox' package to the 'header-includes' header automatically.
 
 Currently containers can be embedded only with a single closing delimiter, e. g.
 
@@ -25,6 +20,9 @@ See also https://www.npmjs.com/package/markdown-it-container.
 """
 
 
+MetaInlines = elt('MetaInlines', 1)
+MetaList = elt('MetaList', 1)
+
 colors = {
     'info':    '[colback=blue!5!white,colframe=blue!75!black]',
     'success': '[colback=green!5!white,colframe=green!75!black]',
@@ -32,8 +30,24 @@ colors = {
     'danger':  '[colback=red!5!white,colframe=red!75!black]',
 }
 
+configured = False
 depth = 0
 
+
+def configure(meta):
+    global configured
+
+    if not configured:
+        configured = True
+
+        if 'header-includes' in meta:
+            meta['header-includes']['c'].extend([
+                MetaInlines([ RawInline('tex', '\\usepackage{tcolorbox}') ]),
+            ])
+        else:
+            meta.update({ 'header-includes': MetaList([
+                MetaInlines([ RawInline('tex', '\\usepackage{tcolorbox}') ]),
+            ]) })
 
 def containers(key, value, fmt, meta):
     global depth
@@ -47,6 +61,7 @@ def containers(key, value, fmt, meta):
 
 	# May require preprocessing since `::: info` is also valid
         if value in [ ':::info', ':::warning', ':::danger', ':::success' ]:
+            configure(meta)
             depth += 1
 
             color = colors[value[3:]]
