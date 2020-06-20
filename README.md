@@ -8,6 +8,7 @@ Pandoc Filters for CodiMD
    ```
 2. Convert Markdown file
    ```
-   $ pandoc -F codimd.py -o <file>.pdf <header>.yaml <file>.md
+   $ (cat <header>.yaml; ./preprocess.sh <file>.md) \
+       | pandoc -F codimd.py -o <file>.pdf
    ```
 
