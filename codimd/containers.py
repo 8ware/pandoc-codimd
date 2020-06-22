@@ -23,7 +23,7 @@ See also https://www.npmjs.com/package/markdown-it-container.
 MetaInlines = elt('MetaInlines', 1)
 MetaList = elt('MetaList', 1)
 
-DELIMITER = ':::'
+DELIMITER = '%3A%3A%3A'
 
 colors = {
     'info':    '[colback=blue!5!white,colframe=blue!75!black]',
