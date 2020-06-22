@@ -23,6 +23,8 @@ See also https://www.npmjs.com/package/markdown-it-container.
 MetaInlines = elt('MetaInlines', 1)
 MetaList = elt('MetaList', 1)
 
+DELIMITER = ':::'
+
 colors = {
     'info':    '[colback=blue!5!white,colframe=blue!75!black]',
     'success': '[colback=green!5!white,colframe=green!75!black]',
@@ -54,27 +56,29 @@ def containers(key, value, fmt, meta):
 
     if key == 'Str':
 
-        # PDFs are not interactive ...
-        # (somehow [the first] spoiler has only two :)
-        if '::spoiler' in value:
-            return []
+        if value.startswith(DELIMITER):
+            category = value[len (DELIMITER):]
 
-        if value in [ ':::info', ':::warning', ':::danger', ':::success' ]:
-            configure(meta)
-            depth += 1
-
-            color = colors[value[3:]]
-            return RawInline('latex', '\\begin{tcolorbox}'+color)
-
-        if value == ':::':
-            # Non-nested spoilers
-            if not depth:
+            # PDFs are not interactive ...
+            if category == 'spoiler':
                 return []
 
-            closing = depth * [ RawInline('latex', '\\end{tcolorbox}') ]
-            depth = 0
+            if category in [ 'info', 'warning', 'danger', 'success' ]:
+                configure(meta)
+                depth += 1
 
-            return closing
+                color = colors[category]
+                return RawInline('latex', '\\begin{tcolorbox}'+color)
+
+            if not category:
+                # Non-nested spoilers
+                if not depth:
+                    return []
+
+                closing = depth * [ RawInline('latex', '\\end{tcolorbox}') ]
+                depth = 0
+
+                return closing
 
 
 if __name__ == "__main__":
