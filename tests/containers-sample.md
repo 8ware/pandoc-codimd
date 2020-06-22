@@ -26,3 +26,7 @@ Some foo here.
 Some nested bar there.
 :::
 
+::: info
+A container with spaces around delimiters.
+ :::
+

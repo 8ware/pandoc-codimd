@@ -59,7 +59,6 @@ def containers(key, value, fmt, meta):
         if '::spoiler' in value:
             return []
 
-	# May require preprocessing since `::: info` is also valid
         if value in [ ':::info', ':::warning', ':::danger', ':::success' ]:
             configure(meta)
             depth += 1
