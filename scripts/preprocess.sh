@@ -2,6 +2,8 @@
 
 input=$1
 
-# Insert blanklines around container delimiters
-sed 's/^\(\s*\):::\(.*\)$/\n\1:::\2\n/' "$input"
+sed \
+	`# Insert blanklines around container delimiters` \
+	-e 's/^\(\s*\):::\(.*\)$/\n\1:::\2\n/' \
+	"$input"
 
