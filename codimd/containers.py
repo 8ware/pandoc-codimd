@@ -24,8 +24,7 @@ MetaInlines = elt('MetaInlines', 1)
 MetaList = elt('MetaList', 1)
 
 DELIMITER = '%3A%3A%3A'
-
-colors = {
+COLORS = {
     'info':    '[colback=blue!5!white,colframe=blue!75!black]',
     'success': '[colback=green!5!white,colframe=green!75!black]',
     'warning': '[colback=yellow!5!white,colframe=yellow!75!black]',
@@ -67,8 +66,8 @@ def containers(key, value, fmt, meta):
                 configure(meta)
                 depth += 1
 
-                color = colors[category]
-                return RawInline('latex', '\\begin{tcolorbox}'+color)
+                color = COLORS[category]
+                return RawInline('latex', '\\begin{tcolorbox}'+color+'\n')
 
             if not category:
                 # Non-nested spoilers
