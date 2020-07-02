@@ -10,6 +10,10 @@ all: ${ALLPDF}
 	../scripts/preprocess.sh $< \
 		| pandoc -F ../codimd/$(subst -sample.md,.py,$<) -o $@
 
+%.tex: %.md
+	../scripts/preprocess.sh $< \
+		| pandoc -F ../codimd/$(subst -sample.md,.py,$<) -o $@
+
 clean:
-	$(RM) ${ALLPDF} *.pyc
+	$(RM) ${ALLPDF} *.pyc *.tex
 
