@@ -1,0 +1,3 @@
+[submodule "pandocfilters"]
+	path = pandocfilters
+	url = https://github.com/jgm/pandocfilters
