@@ -6,12 +6,7 @@ from codimd.crossrefs import crossrefs
 from codimd.emojis import emojis
 from codimd.images import images
 
-import sys
-from os import path
-sys.path.insert(0, path.realpath(path.join(path.dirname(__file__), 'pandocfilters', 'examples')))
-from graphviz import graphviz
-from plantuml import plantuml
-del sys.path[0]
+from extern import graphviz, plantuml
 
 
 if __name__ == '__main__':
