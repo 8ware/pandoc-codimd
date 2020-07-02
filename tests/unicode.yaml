@@ -1,0 +1,6 @@
+---
+header-includes:
+  - \usepackage{pifont}
+  - \DeclareUnicodeCharacter{2714}{\ding{51}} # ✔
+  - \DeclareUnicodeCharacter{2716}{\ding{55}} # ✖
+...
