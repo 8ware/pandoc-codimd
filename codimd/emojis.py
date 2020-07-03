@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from pandocfilters import toJSONFilter, RawInline, elt, Str
+from pandocfilters import toJSONFilter, Image, elt, Str
 from os import path
 import re
 
@@ -28,9 +28,6 @@ def configure(meta):
 
         meta.update({ 'graphics': MetaBool(True) })
 
-def latex_image(path):
-    return RawInline('latex', '\\includegraphics[height=1.7ex]{' + path + '}')
-
 def emojis(key, value, fmt, meta):
     if key == 'Str':
         match = EMOJI_REGEX.match(value)
@@ -41,7 +38,8 @@ def emojis(key, value, fmt, meta):
             image = path.join(EMOJI_IMAGES, name + '.png')
 
             if path.exists(image):
-                return latex_image(image)
+                keyvals = [['height', '12']]
+                return Image(['', [], keyvals], [], [image, ''])
 
 
 if not path.exists(EMOJI_IMAGES):
